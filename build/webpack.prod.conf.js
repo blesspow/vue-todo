@@ -53,8 +53,10 @@ const webpackConfig = merge(baseWebpackConfig, {
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: config.build.index,
-      template: 'index.html',
-      inject: true,
+      // template: 'index.html',
+      template: require('html-webpack-template'),
+      inject: false,
+      baseHref: 'https://codyseibert.github.io/vue-todo',
       minify: {
         removeComments: true,
         collapseWhitespace: true,
