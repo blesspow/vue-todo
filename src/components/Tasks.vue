@@ -1,10 +1,10 @@
 <template lang="pug">
-panel(
+panel.mt-4(
   title="Tasks"
 )
   v-btn(
     slot="action"
-    class="light-green lighten-3"
+    class="white"
     light
     medium
     absolute
@@ -43,6 +43,7 @@ panel(
               single-line
               :value="task.description || 'edit your task description here'"
               @input="(value) => { updateTaskDescription({task: task, description: value}) }"
+              v-on:keydown.enter="blur"
             )
           v-flex.text-xs-center(
             xs2
@@ -63,7 +64,9 @@ export default {
     ]),
     tasks: {
       get () {
-        return this.selectedProject.tasks
+        return [...this.selectedProject.tasks].sort((x, y) =>
+          (x.completed === y.completed) ? 0 : (x.completed) ? 1 : -1
+        )
       },
       set (tasks) {
         this.setProjectTasks(tasks)
@@ -77,7 +80,10 @@ export default {
       'deleteTask',
       'createTask',
       'setProjectTasks'
-    ])
+    ]),
+    blur ($event) {
+      $event.currentTarget.blur()
+    }
   },
   components: {
     draggable

@@ -22,7 +22,7 @@ panel(
 
   v-btn(
     slot="action"
-    class="light-green lighten-3"
+    class="white"
     light
     medium
     absolute
@@ -51,7 +51,7 @@ panel(
       v-flex(xs2).text-xs-center
         v-progress-circular(
           v-bind:value="percentCompleted(project)"
-          color="lime"
+          color="green"
         )
       v-flex.text-xs-center(x1)
         v-icon(

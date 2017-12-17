@@ -32,7 +32,7 @@ panel(
   )
     v-btn(
       slot='activator'
-      color='cyan accent-1'
+      color='white'
       light
       fab
       v-model='fab'

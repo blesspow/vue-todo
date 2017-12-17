@@ -1,6 +1,6 @@
 <template lang="pug">
 v-layout(row)
-  v-flex.mr-2(xs4)
+  v-flex.mr-4(xs4)
     projects
 
   v-flex(

@@ -1,8 +1,8 @@
 <template lang="pug">
-v-toolbar.elevation-1.header.green.darken-1(
+v-toolbar.elevation-1.header.white(
   app
   fixed
-  dark
+  light
 )
   v-toolbar-title.mr-4 VUE-TODO
 
@@ -17,22 +17,24 @@ v-toolbar.elevation-1.header.green.darken-1(
   v-spacer
 
   v-toolbar-items
+    //- v-btn(
+    //-   flat
+    //-   dark
+    //- )
+    //-   v-icon fa-youtube-play
     v-btn(
       flat
       dark
-    )
-      v-icon fa-youtube-play
-    v-btn(
-      flat
-      dark
+      href="https://github.com/codyseibert/vue-todo"
+      target="_blank"
     )
       v-icon fa-github
-    v-btn(
-      flat
-      dark
-      to="/about"
-    )
-      v-icon info
+    //- v-btn(
+    //-   flat
+    //-   dark
+    //-   to="/about"
+    //- )
+    //-   v-icon info
 </template>
 
 <script>
