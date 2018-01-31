@@ -2,23 +2,10 @@
 panel(
   title="Projects"
 )
-  v-dialog(
-    v-model="dialog"
+  create-project-modal(
+    :display="isCreateModalDisplayed"
+    @closed="isCreateModalDisplayed = false"
   )
-    v-card
-      v-card-title
-        h6 Create New Project
-      v-card-text
-        v-text-field.no-pad-top(
-          label="Title"
-          v-model="title"
-          autofocus
-          v-on:keydown.enter="onCreateProjectClick"
-        )
-        v-btn.text-xs-center(
-          color="primary"
-          @click="onCreateProjectClick"
-        ) Create
 
   v-btn(
     slot="action"
@@ -29,7 +16,7 @@ panel(
     right
     middle
     fab
-    @click.stop="dialog = true"
+    @click.stop="isCreateModalDisplayed = true"
   )
     v-icon add
 
@@ -37,7 +24,7 @@ panel(
     v-if="!projects.length"
   )
     img(
-      src="../assets/arrow.png"
+      src="../../assets/arrow.png"
     )
     h6.instructions Create a New Project
 
@@ -61,36 +48,26 @@ panel(
 
 <script>
 import {mapState, mapMutations} from 'vuex'
+import CreateProjectModal from './CreateProjectModal.vue'
 
 export default {
   data () {
     return {
-      dialog: false,
+      isCreateModalDisplayed: false,
       title: ''
     }
   },
   computed: {
-    ...mapState('projects', [
+    ...mapState('boards', [
       'projects',
       'selectedProject'
     ])
   },
   methods: {
-    ...mapMutations('projects', [
+    ...mapMutations('boards', [
       'createProject',
       'setSelectedProject'
     ]),
-    onCreateProjectClick () {
-      this.createProject(this.title)
-      this.dialog = false
-      this.title = ''
-    },
-    getTotalCompleted (project) {
-      return project.tasks.reduce(
-        (sum, task) => sum + (task.completed ? 1 : 0)
-        , 0
-      )
-    },
     selectProject (project) {
       this.setSelectedProject(project)
     },
@@ -100,6 +77,9 @@ export default {
         , 0
       ) / project.tasks.length * 100
     }
+  },
+  components: {
+    CreateProjectModal
   },
   mounted () {
     if (this.projects.length) {

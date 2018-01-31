@@ -1,18 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import createPersistedState from 'vuex-persistedstate'
-import projects from './projects'
+import boards from './boards'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   strict: true,
-  plugins: [
-    createPersistedState({
-      key: 'vuetodo'
-    })
-  ],
   modules: {
-    projects
+    boards
   }
 })

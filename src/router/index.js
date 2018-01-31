@@ -1,21 +1,25 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Main from '@/components/Main'
-import About from '@/components/About'
+import Main from '@/components/boards/Main'
+import CreateBoard from '@/components/CreateBoard'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'Main',
+      path: '/boards/:boardToken',
+      name: 'Boards',
       component: Main
     },
     {
-      path: '/about',
-      name: 'About',
-      component: About
+      path: '/welcome',
+      name: 'Create Board',
+      component: CreateBoard
+    },
+    {
+      path: '*',
+      redirect: '/welcome'
     }
   ]
 })

@@ -3,23 +3,10 @@ panel(
   :title="selectedProject.title"
   v-if="selectedProject"
 )
-  v-dialog(
-    v-model="dialog"
+  edit-project-modal(
+    :display="isEditModalDisplayed"
+    @closed="isEditModalDisplayed = false"
   )
-    v-card
-      v-card-title
-        h6 Edit Project Title
-      v-card-text
-        v-text-field(
-          label="Title"
-          v-model="title"
-          autofocus
-          v-on:keydown.enter="updateProjectTitleLocal"
-        )
-        v-btn.text-xs-center(
-          color="primary"
-          @click="updateProjectTitleLocal"
-        ) Save
 
   v-speed-dial(
     slot="action"
@@ -50,7 +37,7 @@ panel(
       light
       small
       color='yellow'
-      @click="openEditDialog"
+      @click="isEditModalDisplayed = true"
     )
       v-icon edit
 
@@ -68,17 +55,18 @@ panel(
 
 <script>
 import {mapState, mapMutations} from 'vuex'
+import EditProjectModal from './EditProjectModal.vue'
 
 export default {
   data () {
     return {
       fab: false,
-      dialog: false,
+      isEditModalDisplayed: false,
       title: ''
     }
   },
   computed: {
-    ...mapState('projects', [
+    ...mapState('boards', [
       'selectedProject'
     ]),
     getTotalCompleted () {
@@ -94,19 +82,13 @@ export default {
       ) / this.selectedProject.tasks.length * 100
     }
   },
+  components: {
+    EditProjectModal
+  },
   methods: {
-    ...mapMutations('projects', [
-      'deleteProject',
-      'updateProjectTitle'
-    ]),
-    openEditDialog () {
-      this.dialog = true
-      this.title = this.selectedProject.title
-    },
-    updateProjectTitleLocal () {
-      this.updateProjectTitle(this.title)
-      this.dialog = false
-    }
+    ...mapMutations('boards', [
+      'deleteProject'
+    ])
   }
 }
 </script>

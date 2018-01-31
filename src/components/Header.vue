@@ -10,18 +10,18 @@ v-toolbar.elevation-1.header.white(
     v-btn(
       flat
       dark
-      to="/"
+      to="/welcome"
     )
-      v-icon playlist_add_check
+      v-icon fiber_new
 
   v-spacer
 
   v-toolbar-items
-    //- v-btn(
-    //-   flat
-    //-   dark
-    //- )
-    //-   v-icon fa-youtube-play
+    v-btn(
+      flat
+      dark
+    )
+      v-icon fa-youtube-play
     v-btn(
       flat
       dark
@@ -29,12 +29,12 @@ v-toolbar.elevation-1.header.white(
       target="_blank"
     )
       v-icon fa-github
-    //- v-btn(
-    //-   flat
-    //-   dark
-    //-   to="/about"
-    //- )
-    //-   v-icon info
+    v-btn(
+      flat
+      dark
+      to="/about"
+    )
+      v-icon info
 </template>
 
 <script>

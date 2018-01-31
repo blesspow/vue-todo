@@ -9,10 +9,14 @@
     "start": "npm run dev",
     "build": "node build/build.js",
     "lint": "eslint --ext .js,.vue src",
-    "deploy": "git subtree push --prefix dist origin gh-pages"
+    "deploy": "npm run deploy:ui && npm run deploy:api",
+    "deploy:ui": "git subtree push --prefix dist origin gh-pages",
+    "deploy:api": "cd api && bazooka deploy"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "lodash": "^4.17.4",
+    "node-uuid": "^1.4.8",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuedraggable": "^2.14.1",

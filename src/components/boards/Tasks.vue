@@ -18,39 +18,44 @@ panel.mt-4(
     v-if="!tasks.length"
   )
     img(
-      src="../assets/arrow.png"
+      src="../../assets/arrow.png"
     )
     h6.instructions Create a New Task
   .pt-4
     draggable(
       v-model="tasks"
     )
-      .task.mb-4(
-        :key="index"
-        v-for="(task, index) in tasks"
+      transition-group(
+        name="fade"
       )
-        v-layout
-          v-flex(xs1)
-            v-icon.pointer drag_handle
-          v-flex(xs1)
-            v-icon.checkbox(
-              @click="toggleTaskCompleted(task)"
-            ) {{task.completed ? "check_box" : "check_box_outline_blank"}}
-          v-flex(
-            xs8
-          )
-            v-text-field.no-pad-top.up(
-              single-line
-              :value="task.description || 'edit your task description here'"
-              @input="(value) => { updateTaskDescription({task: task, description: value}) }"
-              v-on:keydown.enter="blur"
+        .task(
+          :key="task.id"
+          v-for="(task, index) in tasks"
+        )
+          v-layout
+            v-flex.pt20(xs1)
+              v-icon.pointer drag_handle
+            v-flex.pt20(xs1)
+              v-icon.checkbox(
+                @click="toggleTaskCompleted(task)"
+              ) {{task.completed ? "check_box" : "check_box_outline_blank"}}
+            v-flex(
+              xs8
             )
-          v-flex.text-xs-center(
-            xs2
-          )
-            v-icon.cancel(
-              @click="deleteTask(task)"
-            ) cancel
+              v-text-field(
+                single-line
+                autofocus
+                label="I need to ..."
+                :value="task.description"
+                @input="(value) => { updateTaskDescription({task: task, description: value}) }"
+                v-on:keydown.enter="blur"
+              )
+            v-flex.pt20.text-xs-center(
+              xs2
+            )
+              v-icon.cancel(
+                @click="deleteTask(task)"
+              ) cancel
 </template>
 
 <script>
@@ -59,7 +64,7 @@ import draggable from 'vuedraggable'
 
 export default {
   computed: {
-    ...mapState('projects', [
+    ...mapState('boards', [
       'selectedProject'
     ]),
     tasks: {
@@ -74,7 +79,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('projects', [
+    ...mapMutations('boards', [
       'toggleTaskCompleted',
       'updateTaskDescription',
       'deleteTask',
@@ -92,6 +97,12 @@ export default {
 </script>
 
 <style scoped lang="sass-loader?indentedSyntax">
+.fade-enter-active, .fade-leave-active
+  transition: opacity 0.5s
+
+.fade-enter, .fade-leave-to 
+  opacity: 0
+
 .checkbox
   cursor: pointer
 
@@ -122,4 +133,7 @@ img
   position: relative
   top: -20px
   right: 10px
+
+.pt20
+  padding-top: 20px
 </style>
