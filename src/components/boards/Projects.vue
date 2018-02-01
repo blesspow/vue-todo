@@ -21,17 +21,17 @@ panel(
     v-icon add
 
   .placeholder.mt-4(
-    v-if="!projects.length"
+    v-if="!hasProjects"
   )
     img(
       src="../../assets/arrow.png"
     )
-    h6.instructions Create a New Project
+    h2.instructions Create Project
 
   .project(
     v-for="project in projects"
     @click="selectProject(project)"
-    :class="{selected: selectedProject === project}"
+    :class="{selected: isSelectedProject(project)}"
   )
     v-layout
       v-flex(xs9) {{project.title}}
@@ -42,12 +42,12 @@ panel(
         )
       v-flex.text-xs-center(x1)
         v-icon(
-          v-if="selectedProject === project"
+          v-if="isSelectedProject(project)"
         ) keyboard_arrow_right
 </template>
 
 <script>
-import {mapState, mapMutations} from 'vuex'
+import {mapMutations, mapGetters} from 'vuex'
 import CreateProjectModal from './CreateProjectModal.vue'
 
 export default {
@@ -58,9 +58,10 @@ export default {
     }
   },
   computed: {
-    ...mapState('boards', [
-      'projects',
-      'selectedProject'
+    ...mapGetters('boards', [
+      'isSelectedProject',
+      'hasProjects',
+      'projects'
     ])
   },
   methods: {
@@ -82,7 +83,7 @@ export default {
     CreateProjectModal
   },
   mounted () {
-    if (this.projects.length) {
+    if (this.hasProjects) {
       this.selectProject(this.projects[0])
     }
   }
@@ -106,7 +107,7 @@ export default {
 .instructions
   position: relative
   right: 14px
-  top: 42px
+  top: 34px
   text-align: right
 
 img

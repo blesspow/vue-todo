@@ -1,20 +1,23 @@
 <template lang="pug">
 v-dialog(
   v-model="display"
+  persistent
+  max-width="290"
 )
-  v-card
+  v-card.mt-2
     v-card-title
-      h6 Create New Project
+      h2 Create Project
     v-card-text
       v-text-field(
         autofocus
         v-if="display"
         label="Title"
         v-model="title"
-        v-on:keydown.enter="onCreateProjectClick"
+        v-on:keydown.native.enter="onCreateProjectClick"
       )
       v-btn.text-xs-center(
-        color="primary"
+        color="green"
+        dark
         @click="onCreateProjectClick"
       ) Create
 </template>

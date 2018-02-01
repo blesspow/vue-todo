@@ -1,9 +1,10 @@
 <template lang="pug">
 .white.elevation-2
-  v-toolbar.green(
+  v-toolbar(
     flat
     dense
     dark
+    :class="color"
   )
     v-toolbar-title {{title}}
     slot(name="action")
@@ -14,9 +15,13 @@
 
 <script>
 export default {
-  props: [
-    'title'
-  ]
+  props: {
+    title: String,
+    color: {
+      default: 'green',
+      type: String
+    }
+  }
 }
 </script>
 

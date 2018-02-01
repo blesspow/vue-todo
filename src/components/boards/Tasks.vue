@@ -20,8 +20,10 @@ panel.mt-4(
     img(
       src="../../assets/arrow.png"
     )
-    h6.instructions Create a New Task
-  .pt-4
+    h2.instructions Create Task
+  .pt-4(
+    v-if="tasks.length"
+  )
     draggable(
       v-model="tasks"
     )
@@ -48,7 +50,7 @@ panel.mt-4(
                 label="I need to ..."
                 :value="task.description"
                 @input="(value) => { updateTaskDescription({task: task, description: value}) }"
-                v-on:keydown.enter="blur"
+                v-on:keydown.native.enter="blur"
               )
             v-flex.pt20.text-xs-center(
               xs2
@@ -65,11 +67,12 @@ import draggable from 'vuedraggable'
 export default {
   computed: {
     ...mapState('boards', [
-      'selectedProject'
+      'selectedProject',
+      'projects'
     ]),
     tasks: {
       get () {
-        return [...this.selectedProject.tasks].sort((x, y) =>
+        return [...this.getSelectedProject().tasks].sort((x, y) =>
           (x.completed === y.completed) ? 0 : (x.completed) ? 1 : -1
         )
       },
@@ -86,8 +89,11 @@ export default {
       'createTask',
       'setProjectTasks'
     ]),
+    getSelectedProject () {
+      return this.projects[this.selectedProject]
+    },
     blur ($event) {
-      $event.currentTarget.blur()
+      $event.target.blur()
     }
   },
   components: {
@@ -97,8 +103,11 @@ export default {
 </script>
 
 <style scoped lang="sass-loader?indentedSyntax">
-.fade-enter-active, .fade-leave-active
+.fade-enter-active
   transition: opacity 0.5s
+
+.fade-leave-active
+  transition: opacity 0.0s
 
 .fade-enter, .fade-leave-to 
   opacity: 0
@@ -124,7 +133,7 @@ export default {
 .instructions
   position: relative
   right: 14px
-  top: 42px
+  top: 36px
   text-align: right
 
 img

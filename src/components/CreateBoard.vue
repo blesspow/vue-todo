@@ -1,7 +1,7 @@
 <template lang="pug">
 v-layout(row)
   v-flex.text-xs-center(xs12)
-    h3 Creating Your Board
+    h2.loading Creating Your Board
     v-progress-circular(
       indeterminate 
       v-bind:size="200" 
@@ -28,7 +28,7 @@ export default {
 </script>
 
 <style scoped lang="sass-loader?indentedSyntax">
-h3
+.loading
   margin-top: 100px
   margin-bottom: 40px
 </style>

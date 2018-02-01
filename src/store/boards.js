@@ -7,7 +7,7 @@ let lastState = null
 export default {
   state: {
     selectedProject: null,
-    projects: []
+    projects: {}
   },
   namespaced: true,
   actions: {
@@ -16,7 +16,6 @@ export default {
         await axios.post(`https://api.keyvalue.xyz/new/board`)
       ).data
       const [, boardToken] = projectUrl.split('/').reverse()
-      commit('addProject', boardToken)
       return boardToken
     },
     async loadBoard ({commit, s}, boardToken) {
@@ -26,7 +25,7 @@ export default {
       if (typeof boardData === 'string') {
         boardData = {
           selectedProject: null,
-          projects: []
+          projects: {}
         }
       }
       commit('setBoard', boardData)
@@ -39,18 +38,29 @@ export default {
       }
     }
   },
+  getters: {
+    getSelectedProject (state) {
+      return state.projects[state.selectedProject]
+    },
+    isSelectedProject: (state) => (project) => {
+      return project.id === state.selectedProject
+    },
+    hasProjects (state) {
+      return Object.values(state.projects).length
+    },
+    projects (state) {
+      return Object.values(state.projects)
+    }
+  },
   mutations: {
     setBoard (state, board) {
       Object.assign(state, board)
-    },
-    addProject (state, projectUrl) {
-      state.projects[projectUrl] = {}
     },
     setProjects (state, projects) {
       state.projects = projects
     },
     setSelectedProject (state, project) {
-      state.selectedProject = project
+      state.selectedProject = project.id
     },
     toggleTaskCompleted (state, task) {
       task.completed = !task.completed
@@ -59,34 +69,41 @@ export default {
       message.task.description = message.description
     },
     deleteTask (state, task) {
-      state.selectedProject.tasks.splice(state.selectedProject.tasks.indexOf(task), 1)
+      state.projects[state.selectedProject].tasks.splice(
+        state.projects[state.selectedProject].tasks.indexOf(task), 1
+      )
     },
     createTask (state) {
-      state.selectedProject.tasks.push({
+      state.projects[state.selectedProject].tasks.push({
         id: uuid.v4(),
         description: '',
         completed: false
       })
     },
     createProject (state, title) {
-      state.projects.push({
-        title: title,
-        tasks: []
-      })
-      state.selectedProject = state.projects[state.projects.length - 1]
+      const id = uuid.v4()
+      state.projects = {
+        ...state.projects,
+        [id]: {
+          id,
+          title: title,
+          tasks: []
+        }
+      }
+      state.selectedProject = id
     },
     deleteProject (state) {
-      state.projects.splice(state.projects.indexOf(state.selectedProject), 1)
+      state.projects = _.omit(state.projects, state.selectedProject)
       state.selectedProject = null
       if (state.projects.length) {
-        state.selectedProject = state.projects[0]
+        state.selectedProject = state.projects[0].id
       }
     },
     updateProjectTitle (state, title) {
-      state.selectedProject.title = title
+      state.projects[state.selectedProject].title = title
     },
     setProjectTasks (state, tasks) {
-      state.selectedProject.tasks = tasks
+      state.projects[state.selectedProject].tasks = tasks
     }
   }
 }

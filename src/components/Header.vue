@@ -9,7 +9,7 @@ v-toolbar.elevation-1.header.white(
   v-toolbar-items
     v-btn(
       flat
-      dark
+      color="grey"
       to="/welcome"
     )
       v-icon fiber_new
@@ -19,22 +19,17 @@ v-toolbar.elevation-1.header.white(
   v-toolbar-items
     v-btn(
       flat
-      dark
+      color="grey"
     )
       v-icon fa-youtube-play
+
     v-btn(
       flat
-      dark
+      color="grey"
       href="https://github.com/codyseibert/vue-todo"
       target="_blank"
     )
       v-icon fa-github
-    v-btn(
-      flat
-      dark
-      to="/about"
-    )
-      v-icon info
 </template>
 
 <script>
@@ -45,5 +40,6 @@ export default {
 <style scoped>
 .header {
   z-index: 100;
+  font-family: 'Quicksand', sans-serif
 }
 </style>

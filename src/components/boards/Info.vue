@@ -1,6 +1,6 @@
 <template lang="pug">
 panel(
-  :title="selectedProject.title"
+  :title="getSelectedProject().title"
   v-if="selectedProject"
 )
   edit-project-modal(
@@ -45,7 +45,7 @@ panel(
     v-flex.pt-3(
       xs12
     )
-      h6 {{getTotalCompleted}} / {{selectedProject.tasks.length}} Completed
+      h2 {{getTotalCompleted}} / {{getSelectedProject().tasks.length}} Completed
       v-progress-linear(
         v-model="percentCompleted"
         buffer
@@ -67,19 +67,20 @@ export default {
   },
   computed: {
     ...mapState('boards', [
-      'selectedProject'
+      'selectedProject',
+      'projects'
     ]),
     getTotalCompleted () {
-      return this.selectedProject.tasks.reduce(
+      return this.getSelectedProject().tasks.reduce(
         (sum, task) => sum + (task.completed ? 1 : 0)
         , 0
       )
     },
     percentCompleted () {
-      return this.selectedProject.tasks.reduce(
+      return this.getSelectedProject().tasks.reduce(
         (sum, task) => sum + (task.completed ? 1 : 0)
         , 0
-      ) / this.selectedProject.tasks.length * 100
+      ) / this.getSelectedProject().tasks.length * 100
     }
   },
   components: {
@@ -88,7 +89,10 @@ export default {
   methods: {
     ...mapMutations('boards', [
       'deleteProject'
-    ])
+    ]),
+    getSelectedProject () {
+      return this.projects[this.selectedProject]
+    }
   }
 }
 </script>

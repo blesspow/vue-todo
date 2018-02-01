@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Main from '@/components/boards/Main'
 import CreateBoard from '@/components/CreateBoard'
+import PrivacyPolicy from '@/components/PrivacyPolicy'
 
 Vue.use(Router)
 
@@ -16,6 +17,11 @@ export default new Router({
       path: '/welcome',
       name: 'Create Board',
       component: CreateBoard
+    },
+    {
+      path: '/privacy',
+      name: 'Privacy Policy',
+      component: PrivacyPolicy
     },
     {
       path: '*',

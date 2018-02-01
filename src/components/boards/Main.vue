@@ -4,7 +4,7 @@ v-layout(row)
     xs12
     v-if="loading"
   ) 
-    h3 Loading Your Board
+    h2.loading Loading Your Board
     v-progress-circular(
       indeterminate 
       v-bind:size="200" 
@@ -19,6 +19,12 @@ v-layout(row)
       v-if="!loading"
     )
       projects
+      v-alert.mt-4(
+        color="error" 
+        outline
+        icon="warning" 
+        :value="true"
+      ) your board will be deleted after 7 days of inactivity
 
   transition(
     name="fade"
@@ -89,7 +95,7 @@ export default {
 .fade-enter, .fade-leave-to
   opacity: 0
 
-h3
+.loading
   margin-top: 100px
   margin-bottom: 40px
 </style>
